@@ -1,18 +1,37 @@
 module.exports = function check(str, bracketsConfig) {
   // your solution
-  let chars = str.split(''),
-        stack = [],
+
+  if (str.length % 2){
+    return false;
+  }
+
+  let   stack = [],
         open = [],
-        close = [],
-        closeIndex,
-        openIndex;
+        close = [];
 
   for (let i = 0; i < bracketsConfig.length; i++){
     open.push(bracketsConfig[i][0]);
     close.push(bracketsConfig[i][1]);
   }
     
-  for (let i = 0; i < chars.length; i++) {
+  for (let i = 0; i < str.length; i++) {
+    let index = close.findIndex(s => s === str[i]);
+    let openSymbol = open[index];
+
+    let flag = true;
+    if (close.includes(str[i])){
+      if (stack[stack.length - 1] === openSymbol){
+        stack.pop();
+        flag = false;
+      }
+    }
+
+    if (open.includes(str[i]) && flag){
+      stack.push(str[i]);
+    }
+
+    //return !stack.length;
+    /*
     openIndex = open.indexOf(chars[i]);
     if (openIndex !== -1) {           
       stack.push(openIndex);
@@ -26,6 +45,7 @@ module.exports = function check(str, bracketsConfig) {
         return false;
       }
     }
+    */
   }
 
     
